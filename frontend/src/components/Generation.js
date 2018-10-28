@@ -1,18 +1,51 @@
 import React, { Component } from 'react'
 
+const DEFAULT_GENERATION = { generationId: '', expiration: '' }
+const MINIMUM_DELAY = 3000
+
 class Generation extends Component {
   state = {
-    generation: { generationId: 999, expiration: '2020-05-01' },
+    generation: DEFAULT_GENERATION,
   }
 
+  timer = null
+
   componentDidMount() {
-    this.fetchGeneration()
+    this.fetchNextGeneration()
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this.timer)
   }
 
   fetchGeneration = () => {
-    fetch('http://localhost:3000/generation').then(response => {
-      console.log(response)
-    })
+    const API_URL = 'http://localhost:3000/generation'
+    fetch(API_URL)
+      .then(response =>
+        response
+          .json()
+          .then(({ generation }) => this.setState({ generation }))
+          .catch(error => console.error(error))
+      )
+      .catch(error => console.error(error))
+  }
+
+  fetchNextGeneration = () => {
+    this.fetchGeneration()
+
+    const {
+      generation: { expiration },
+    } = this.state
+
+    // Delay by Expiration - Now
+    let delay = new Date(expiration).getTime() - new Date().getTime()
+
+    // Make sure delay is never too small
+    if (delay < MINIMUM_DELAY) {
+      delay = MINIMUM_DELAY
+    }
+
+    this.timer = setTimeout(() => this.fetchNextGeneration(), delay)
   }
 
   render() {
