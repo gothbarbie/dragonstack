@@ -1,0 +1,22 @@
+{
+  "name": "dragonstack",
+  "version": "1.0.0",
+  "description": "Project for Udemy course https://www.udemy.com/full-stack/learn/v4/",
+  "main": "index.js",
+  "scripts": {
+    "start": "nf start",
+    "backend": "nodemon backend/bin/server",
+    "frontend": "parcel frontend/src/index.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gothbarbie/dragonstack.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gothbarbie/dragonstack/issues"
+  },
+  "homepage": "https://github.com/gothbarbie/dragonstack#readme"
+}
